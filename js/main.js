@@ -8,7 +8,7 @@
   var video = document.querySelector('video');
 
   // Buttons
-  var playButton = document.getElementById('play-pause');
+  var playButton = document.getElementById('play-btn');
   var muteButton = document.getElementById('mute');
   var fullScreenButton = document.getElementById('full-screen');
 
@@ -61,10 +61,12 @@
   function togglePlayPause() {
     if (video.paused == true) {
       video.play();
-      playButton.innerHTML = 'Pause';
+      playButton.classList.remove('paused');
+      playButton.classList.add('playing');
     } else {
       video.pause();
-      playButton.innerHTML = 'Play';
+      playButton.classList.remove('playing');
+      playButton.classList.add('paused');
     }
   }
   function toggleMute() {
