@@ -304,6 +304,65 @@ video {
   transition: width .175s cubic-bezier(.18, 0, .07, 1);
 }
 
+.controls .ghost-timecode,
+.controls .timecode {
+  opacity: 1;
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: -20px 0 0 -12px;
+}
+
+.controls .ghost-timecode span,
+.controls .timecode span {
+  padding: 2px 4px;
+  font-size: 10px;
+  font-family: Verdana, sans-serif;
+  position: relative;
+  left: -50%;
+  border-radius: 2px;
+}
+
+.controls .ghost-timecode span::before,
+.controls .timecode span::before {
+  margin-left: -20px;
+  bottom: -4px;
+}
+
+.controls .ghost-timecode span::after,
+.controls .ghost-timecode span::before,
+.controls .timecode span::after,
+.controls .timecode span::before {
+  content: "";
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 3px solid transparent;;
+  bottom: -3px;
+  left: 50%;
+  margin-left: -3px;
+  position: absolute;
+}
+
+.controls .ghost-timecode span::after {
+  border-top-color: rgba(23,35,34,.85);
+}
+
+.controls .timecode span::after {
+  border-top-color: #fff;
+}
+
+.controls .ghost-timecode span {
+  background: rgba(23, 35, 34, .85);
+  color: #fff;
+}
+
+.controls .timecode span {
+  background: #fff;
+  color: #000;
+  margin-left: 23px;
+  cursor: grab;
+}
+
 .controls .volume {
   position: relative;
   width: 24px;
