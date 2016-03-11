@@ -284,6 +284,26 @@ video {
   cursor: pointer;
 }
 
+.controls .progress .buffer,
+.controls .progress .buffer canvas,
+.controls .progress .buffer svg,
+.controls .progress .loaded,
+.controls .progress .played {
+  position: absolute;
+  border: 1px solid transparent;
+  height: 100%;
+  background-clip: padding-box;
+}
+
+.controls .progress .played {
+  background-color: #00adef;
+}
+
+.controls .progress .loaded {
+  background-color: #666;
+  transition: width .175s cubic-bezier(.18, 0, .07, 1);
+}
+
 .controls .volume {
   position: relative;
   width: 24px;
@@ -335,3 +355,4 @@ video {
 .controls .fullscreen:focus .fill {
   fill: #00adef;
 }
+
