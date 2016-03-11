@@ -11,6 +11,14 @@
    ========================================================================== */
 
 html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+html {
   color: #222;
   font-size: 1em;
   line-height: 1.4;
@@ -186,84 +194,6 @@ textarea {
   /* Style adjustments for high resolution devices */
 }
 
-/* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   http://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
-
-@media print {
-  *,
-  *:before,
-  *:after,
-  *:first-letter,
-  *:first-line {
-    background: transparent !important;
-    color: #000 !important;
-    /* Black prints faster:
-                                      http://www.sanbeiji.com/archives/953 */
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-
-  a,
-  a:visited {
-    text-decoration: underline;
-  }
-
-  a[href]:after {
-    content: " (" attr(href) ")";
-  }
-
-  abbr[title]:after {
-    content: " (" attr(title) ")";
-  }
-
-  /*
-   * Don't show links that are fragment identifiers,
-   * or use the `javascript:` pseudo protocol
-   */
-  a[href^="#"]:after,
-  a[href^="javascript:"]:after {
-    content: "";
-  }
-
-  pre,
-  blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-
-  /*
-   * Printing Tables:
-   * http://css-discuss.incutio.com/wiki/Printing_Tables
-   */
-  thead {
-    display: table-header-group;
-  }
-
-  tr,
-  img {
-    page-break-inside: avoid;
-  }
-
-  img {
-    max-width: 100% !important;
-  }
-
-  p,
-  h2,
-  h3 {
-    orphans: 3;
-    widows: 3;
-  }
-
-  h2,
-  h3 {
-    page-break-after: avoid;
-  }
-}
-
 /*
 custom styles
 */
@@ -305,7 +235,7 @@ video {
   position: relative;
   width: 65px;
   height: 40px;
-  margin-right: .9em;
+  margin-right: 10px;
   color: #fff;
   background: rgba(23, 35, 34, .75);
   border-radius: 5px;
@@ -334,4 +264,74 @@ video {
 
 .controls .play.playing .play-icon {
   display: none;
+}
+
+.controls .play-bar {
+  background-color: rgba(23, 35, 34, .75);
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+  position: relative;
+  height: 32px;
+  padding: 10px;
+  border-radius: 2px;
+}
+
+.controls .progress {
+  position: relative;
+  flex: 1;
+  border: 1px solid #666;
+  cursor: pointer;
+}
+
+.controls .volume {
+  position: relative;
+  width: 24px;
+  height: 100%;
+  margin-left: 12px;
+  cursor: pointer;
+}
+
+.controls .volume > div {
+  background-color: #00adef;
+  display: block;
+  position: absolute;
+  width: 3px;
+  height: 12px;
+  left: 0;
+  bottom: 0;
+}
+
+.controls .volume > div:nth-child(2) {
+  left: 5px;
+}
+
+.controls .volume > div:nth-child(3) {
+  left: 10px;
+}
+
+.controls .volume > div:nth-child(4) {
+  left: 15px;
+}
+
+.controls .volume > div:nth-child(5) {
+  left: 20px;
+}
+
+.controls .fill {
+  fill: #fff;
+  transition: fill .05s;
+}
+
+.controls .fullscreen {
+  background: 0 0;
+  width: 12px;
+  height: 100%;
+  margin-left: 10px;
+  font-size: 10px;
+}
+
+.controls .fullscreen:hover .fill,
+.controls .fullscreen:focus .fill {
+  fill: #00adef;
 }
