@@ -18,6 +18,7 @@
   var progress = document.querySelector('.controls .progress');
   var ghostTimeCode = document.querySelector('.controls .ghost-timecode');
   var ghostTimeCodeText = document.querySelector('.controls .ghost-timecode span');
+  var progressPlayed = document.querySelector('.controls .progress .played');
   var seekBar = document.getElementById('seek-bar');
   var volumeBar = document.getElementById('volume-bar');
 
@@ -46,12 +47,14 @@
   //seekBar.addEventListener("mouseup", onSeekBarMouseUp);
 
 
-  video.addEventListener('playing', function() {
-    console.log('playing has initialized');
+  video.addEventListener('canplay', function() {
+    // Set ARIA accessibility attributes
+    progressPlayed.setAttribute('aria-valuemin', 0);
+    progressPlayed.setAttribute('aria-valuemax', video.duration);
   });
 
-  // Update the seek bar as the video plays
-  video.addEventListener('timeupdate', updateSeekBar);
+  // Update progress bar as the video plays
+  video.addEventListener('timeupdate', updateProgress);
 
   player.addEventListener('mouseout', function() {
     if (video.played.length === 1) {
@@ -105,8 +108,12 @@
     }
   }
 
-  function updateSeekBar() {
-    seekBar.value = video.currentTime * (100 / video.duration);
+  function updateProgress() {
+    // Set ARIA accessibility attributes
+    progressPlayed.setAttribute('aria-valuenow', video.currentTime);
+
+    // Update progress bar
+    progressPlayed.style.width = (video.currentTime / video.duration) * 100 + '%';
   }
 
   function onSeekBarChange() {
@@ -139,16 +146,17 @@
     // Returns mouse cursor position in percentage relative to the progress bar element
     var relXPercent = (relX / progress.offsetWidth) * 100;
 
-    // Calculate video duration relative to mouse cursor, then apply formatting hh:mm:ss
+    // Calculate video duration relative to mouse cursor using "hh:mm:ss" format
     var relFormattedTime = secondsToHms((video.duration * relXPercent) / 100);
 
+    // Display tooltip with timestamp relative to mouse cursor
     ghostTimeCode.style.opacity = 1;
     ghostTimeCode.style.left = relXPercent + '%';
-
     ghostTimeCodeText.innerHTML = relFormattedTime;
   }
 
   function onProgressMouseOut() {
+    // Hide tooltip with timestamp relative to mouse cursor
     ghostTimeCode.style.opacity = 0;
   }
 
