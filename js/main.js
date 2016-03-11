@@ -12,10 +12,11 @@
 
   // Buttons
   var playButton = document.getElementById('play-btn');
-  var muteButton = document.getElementById('mute');
   var fullScreenButton = document.getElementById('full-screen');
 
   // Sliders
+  var progress = document.querySelector('.controls .progress');
+  var ghostTimeCode = document.querySelector('.controls .ghost-timecode');
   var seekBar = document.getElementById('seek-bar');
   var volumeBar = document.getElementById('volume-bar');
 
@@ -23,24 +24,39 @@
   video.addEventListener('click', togglePlayPause);
   playButton.addEventListener('click', togglePlayPause);
 
-  // Event listener for the mute button
-  muteButton.addEventListener('click', toggleMute);
-
   // Event listener for the volume bar
-  volumeBar.addEventListener("change", changeVolume);
+  //volumeBar.addEventListener("change", changeVolume);
 
   // Event listener for the full-screen button
   video.addEventListener('dblclick', toggleFullScreen);
-  fullScreenButton.addEventListener('click', toggleFullScreen);
+  //fullScreenButton.addEventListener('click', toggleFullScreen);
 
-  // Event listener for the seek bar
-  seekBar.addEventListener('change', onSeekBarChange);
+  progress.addEventListener('mousemove', function(event) {
+    // Returns the size of an element and its position relative to the viewport.
+    var rect = progress.getBoundingClientRect();
 
-  // Pause the video when the slider handle is being dragged
-  seekBar.addEventListener("mousedown", onSeekBarMouseDown);
+    // Returns mouse cursor position in pixels relative to the progress bar element
+    var relX = event.pageX - (rect.left + document.body.scrollLeft);
 
-  // Play the video when the slider handle is dropped
-  seekBar.addEventListener("mouseup", onSeekBarMouseUp);
+    // Returns mouse cursor position in percentage relative to the progress bar element
+    var relXPercent = (relX / progress.offsetWidth) * 100;
+
+    ghostTimeCode.style.opacity = 1;
+    ghostTimeCode.style.left = relXPercent + '%';
+  });
+
+  progress.addEventListener('mouseout', function() {
+    ghostTimeCode.style.opacity = 0;
+  });
+
+  //// Event listener for the seek bar
+  //seekBar.addEventListener('change', onSeekBarChange);
+  //
+  //// Pause the video when the slider handle is being dragged
+  //seekBar.addEventListener("mousedown", onSeekBarMouseDown);
+  //
+  //// Play the video when the slider handle is dropped
+  //seekBar.addEventListener("mouseup", onSeekBarMouseUp);
 
 
   video.addEventListener('playing', function() {
@@ -70,15 +86,6 @@
       video.pause();
       playButton.classList.remove('playing');
       playButton.classList.add('paused');
-    }
-  }
-  function toggleMute() {
-    if (video.muted == false) {
-      video.muted = true;
-      muteButton.innerHTML = 'Unmute';
-    } else {
-      video.muted = false;
-      muteButton.innerHTML = 'Mute';
     }
   }
 

@@ -306,11 +306,15 @@ video {
 
 .controls .ghost-timecode,
 .controls .timecode {
-  opacity: 1;
   position: absolute;
   left: 0;
   top: 0;
-  margin: -20px 0 0 -12px;
+  margin: -23px 0 0 -12px;
+}
+
+.controls .ghost-timecode {
+  margin-left: 0;
+  transition: opacity .25s ease-out;
 }
 
 .controls .ghost-timecode span,
@@ -360,6 +364,8 @@ video {
   background: #fff;
   color: #000;
   margin-left: 23px;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
   cursor: grab;
 }
 
