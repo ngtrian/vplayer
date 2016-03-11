@@ -17,6 +17,7 @@
   // Sliders
   var progress = document.querySelector('.controls .progress');
   var ghostTimeCode = document.querySelector('.controls .ghost-timecode');
+  var ghostTimeCodeText = document.querySelector('.controls .ghost-timecode span');
   var seekBar = document.getElementById('seek-bar');
   var volumeBar = document.getElementById('volume-bar');
 
@@ -31,23 +32,9 @@
   video.addEventListener('dblclick', toggleFullScreen);
   //fullScreenButton.addEventListener('click', toggleFullScreen);
 
-  progress.addEventListener('mousemove', function(event) {
-    // Returns the size of an element and its position relative to the viewport.
-    var rect = progress.getBoundingClientRect();
+  progress.addEventListener('mousemove', onProgressMouseOver);
 
-    // Returns mouse cursor position in pixels relative to the progress bar element
-    var relX = event.pageX - (rect.left + document.body.scrollLeft);
-
-    // Returns mouse cursor position in percentage relative to the progress bar element
-    var relXPercent = (relX / progress.offsetWidth) * 100;
-
-    ghostTimeCode.style.opacity = 1;
-    ghostTimeCode.style.left = relXPercent + '%';
-  });
-
-  progress.addEventListener('mouseout', function() {
-    ghostTimeCode.style.opacity = 0;
-  });
+  progress.addEventListener('mouseout', onProgressMouseOut);
 
   //// Event listener for the seek bar
   //seekBar.addEventListener('change', onSeekBarChange);
@@ -140,6 +127,29 @@
     var m = Math.floor(d % 3600 / 60);
     var s = Math.floor(d % 3600 % 60);
     return (h > 0 ? h + ':' : '') + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function onProgressMouseOver(event) {
+    // Returns the size of an element and its position relative to the viewport.
+    var rect = progress.getBoundingClientRect();
+
+    // Returns mouse cursor position in pixels relative to the progress bar element
+    var relX = event.pageX - (rect.left + document.body.scrollLeft);
+
+    // Returns mouse cursor position in percentage relative to the progress bar element
+    var relXPercent = (relX / progress.offsetWidth) * 100;
+
+    // Calculate video duration relative to mouse cursor, then apply formatting hh:mm:ss
+    var relFormattedTime = secondsToHms((video.duration * relXPercent) / 100);
+
+    ghostTimeCode.style.opacity = 1;
+    ghostTimeCode.style.left = relXPercent + '%';
+
+    ghostTimeCodeText.innerHTML = relFormattedTime;
+  }
+
+  function onProgressMouseOut() {
+    ghostTimeCode.style.opacity = 0;
   }
 
 }());
