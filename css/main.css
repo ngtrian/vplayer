@@ -309,12 +309,13 @@ video {
   position: absolute;
   left: 0;
   top: 0;
+  opacity: 0;
   margin: -23px 0 0 -12px;
+  transition: opacity .25s ease-out;
 }
 
 .controls .ghost-timecode {
   margin-left: 0;
-  transition: opacity .25s ease-out;
 }
 
 .controls .ghost-timecode span,
