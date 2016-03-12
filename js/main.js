@@ -37,7 +37,6 @@ var VPlayer = (function() {
 
   progress.addEventListener('mousemove', onProgressMouseOver);
   progress.addEventListener('mouseout', onProgressMouseOut);
-  document.addEventListener('mouseup', onProgressDragStop);
   progress.addEventListener('mousedown', onProgressDragStart);
 
   video.addEventListener('canplay', initializeVideoElements);
@@ -100,6 +99,13 @@ var VPlayer = (function() {
     } else {
       pause();
     }
+  }
+
+  function onVideoEnd() {
+    video.pause();
+    showControls();
+    playButton.classList.remove('playing');
+    playButton.classList.add('ended');
   }
 
   function changeVolume(event) {
@@ -249,18 +255,13 @@ var VPlayer = (function() {
     }
   }
 
-  function onVideoEnd() {
-    showControls();
-    playButton.classList.remove('playing');
-    playButton.classList.add('ended');
-  }
-
   function onProgressDragStart(event) {
     // Pause video and change mouse cursor to "grabbing" while scrubbing a video
     pause();
     scrubVideo(event);
     player.classList.add('scrubbing');
     player.addEventListener('mousemove', onProgressDragOver);
+    document.addEventListener('mouseup', onProgressDragStop);
   }
 
   function onProgressDragOver(event) {
@@ -271,6 +272,10 @@ var VPlayer = (function() {
     player.classList.remove('scrubbing');
     player.removeEventListener('mousemove', onProgressDragOver);
     play();
+
+    // Remove self to avoid collisions with other mouseup events on the page
+    document.removeEventListener('mouseup', onProgressDragStop);
+
   }
 
   function scrubVideo(event) {
