@@ -140,8 +140,8 @@ video::-webkit-media-controls-enclosure {
 .controls .play-bar {
   position: relative;
   display: flex;
-  flex: 1;
   justify-content: flex-end;
+  flex: 1;
   height: 32px;
   padding: 10px;
   background-color: rgba(23, 35, 34, .75);
@@ -153,6 +153,12 @@ video::-webkit-media-controls-enclosure {
   flex: 1;
   border: 1px solid #666;
   cursor: pointer;
+}
+
+.controls .progress:active {
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
+  cursor: grabbing;
 }
 
 .controls .progress .loaded,
