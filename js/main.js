@@ -5,7 +5,7 @@
 (function() {
 
   var player = document.querySelector('.player');
-  var controls = document.getElementsByClassName('controls')[0];
+  var controls = document.querySelector('.controls');
 
   // Video
   var video = document.querySelector('video');
@@ -68,16 +68,32 @@
 
   video.addEventListener('progress', updateProgressBuffered);
 
-  player.addEventListener('mouseout', function() {
+
+  player.addEventListener('mouseout', hideControls);
+  player.addEventListener('mousemove', showControls);
+  player.addEventListener('mousemove', debounce(hideControls, 2000));
+
+  function hideControls() {
+
     if (video.played.length > 0) {
       controls.style.opacity = 0;
     }
-  });
-  player.addEventListener('mouseover', function() {
+  }
+
+  function showControls() {
     if (video.played.length > 0) {
       controls.style.opacity = 1;
+
     }
-  });
+
+    var timeout;
+    if (timeout) {
+      window.clearTimeout(timeout);
+    }
+    timeout = setTimeout(function () {
+      console.log('hi');
+    }, 1000);
+  }
 
   function togglePlayPause() {
     if (video.paused == true) {
@@ -214,6 +230,17 @@
     var m = Math.floor(d % 3600 / 60);
     var s = Math.floor(d % 3600 % 60);
     return (h > 0 ? h + ':' : '') + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function debounce(fn, delay) {
+    var timer = null;
+    return function () {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        fn.apply(context, args);
+      }, delay);
+    };
   }
 
   function onProgressMouseOver(event) {
