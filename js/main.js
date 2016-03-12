@@ -47,6 +47,7 @@ var VPlayer = (function() {
   video.addEventListener('canplay', initializeVideoElements);
   video.addEventListener('timeupdate', updateProgressPlayed);
   video.addEventListener('progress', updateProgressBuffered);
+  video.addEventListener('ended', onVideoEnd);
 
   player.addEventListener('mouseout', hideControls);
   player.addEventListener('mousemove', showControls);
@@ -86,6 +87,7 @@ var VPlayer = (function() {
 
   function play() {
     video.play();
+    playButton.classList.remove('ended');
     playButton.classList.remove('paused');
     playButton.classList.add('playing');
   }
@@ -266,6 +268,11 @@ var VPlayer = (function() {
 
       }
     }
+  }
+
+  function onVideoEnd() {
+    playButton.classList.remove('playing');
+    playButton.classList.add('ended')
   }
 
   function onProgressDragStart(event) {

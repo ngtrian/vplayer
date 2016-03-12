@@ -114,22 +114,24 @@ video::-webkit-media-controls-enclosure {
 }
 
 .controls .play-icon,
-.controls .pause-icon {
+.controls .pause-icon,
+.controls .replay-icon {
   margin-top: 3px;
   padding-left: 2px;
 }
 
-.controls .pause-icon svg,
-.controls .play-icon svg {
-  width: 20px;
-  height: 20px;
-}
-
-.controls .play.paused .pause-icon {
+.controls .play.paused .pause-icon,
+.controls .play.paused .replay-icon {
   display: none;
 }
 
-.controls .play.playing .play-icon {
+.controls .play.playing .play-icon,
+.controls .play.playing .replay-icon {
+  display: none;
+}
+
+.controls .play.ended .play-icon,
+.controls .play.ended .pause-icon {
   display: none;
 }
 
