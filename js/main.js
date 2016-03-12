@@ -21,6 +21,8 @@
   var ghostTimeCode = document.querySelector('.controls .ghost-timecode');
   var ghostTimeCodeText = document.querySelector('.controls .ghost-timecode span');
   var progressPlayed = document.querySelector('.controls .progress .played');
+  var progressLoaded = document.querySelector('.controls .progress .loaded');
+
   var seekBar = document.getElementById('seek-bar');
   var volumeBar = document.getElementById('volume-bar');
 
@@ -53,10 +55,32 @@
     // Set ARIA accessibility attributes
     progressPlayed.setAttribute('aria-valuemin', 0);
     progressPlayed.setAttribute('aria-valuemax', video.duration);
+
+    progressLoaded.setAttribute('aria-valuemin', 0);
+    progressLoaded.setAttribute('aria-valuemax', video.duration);
+
+
   });
 
   // Update progress bar as the video plays
   video.addEventListener('timeupdate', updateProgress);
+
+  video.addEventListener('progress', function() {
+    if (video.buffered.length > 0) {
+      var bufferedEnd = video.buffered.end(video.buffered.length - 1);
+      var duration = video.duration;
+      var bufferedAmount = (bufferedEnd / duration) * 100;
+
+      // Show buffered amount on the progress bar
+      if (duration > 0) {
+        progressLoaded.style.width = bufferedAmount + '%';
+
+        // Set ARIA accessibility attributes
+        progressLoaded.setAttribute('aria-valuenow', bufferedAmount);
+
+      }
+    }
+  });
 
   player.addEventListener('mouseout', function() {
     if (video.played.length === 1) {
@@ -86,8 +110,7 @@
   }
 
   function toggleFullScreen() {
-    if (!document.fullscreenElement && !document.mozFullScreenElement &&
-      !document.webkitFullscreenElement && !document.msFullscreenElement ) {
+    if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
       if (video.requestFullscreen) {
         video.requestFullscreen();
       } else if (video.msRequestFullscreen) {
@@ -118,7 +141,7 @@
     var playedPercent = (video.currentTime / video.duration) * 100;
 
     // Update played progress
-    progressPlayed.style.width =  playedPercent + '%';
+    progressPlayed.style.width = playedPercent + '%';
 
     // Calculate current time using "hh:mm:ss" format
     var relFormattedTime = secondsToHms(video.currentTime);
