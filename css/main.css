@@ -198,6 +198,14 @@ textarea {
 custom styles
 */
 
+video::-webkit-media-controls {
+  display: none;
+}
+
+video::-webkit-media-controls-enclosure {
+  display: none;
+}
+
 .player {
   position: relative;
   width: 640px;
@@ -349,7 +357,7 @@ video {
 }
 
 .controls .ghost-timecode span::after {
-  border-top-color: rgba(23,35,34,.85);
+  border-top-color: rgba(23, 35, 34, .85);
 }
 
 .controls .timecode span::after {
