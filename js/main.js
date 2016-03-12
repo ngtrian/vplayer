@@ -1,3 +1,5 @@
+//todo: after it finishes, progressbar resests back to previous time
+// todo: show controls after video is over, pause video
 var VPlayer = (function() {
   /**
    * Video player
@@ -266,21 +268,21 @@ var VPlayer = (function() {
     }
   }
 
-  function onProgressDragStart() {
+  function onProgressDragStart(event) {
     pause();
-    scrubVideo();
+    scrubVideo(event);
     progress.addEventListener('mousemove', onProgressDragOver);
   }
 
-  function onProgressDragOver() {
-    scrubVideo();
+  function onProgressDragOver(event) {
+    scrubVideo(event);
   }
 
   function onProgressDragStop() {
     progress.removeEventListener('mousemove', onProgressDragOver);
   }
 
-  function scrubVideo() {
+  function scrubVideo(event) {
     // Returns the size of an element and its position relative to the viewport
     var rect = progress.getBoundingClientRect();
 
