@@ -12,7 +12,7 @@
 
   // Buttons
   var playButton = document.getElementById('play-btn');
-  var fullScreenButton = document.getElementById('full-screen');
+  var fullscreenButton = document.querySelector('.fullscreen');
 
   // Sliders
   var progress = document.querySelector('.controls .progress');
@@ -35,7 +35,7 @@
 
   // Event listener for the full-screen button
   video.addEventListener('dblclick', toggleFullScreen);
-  //fullScreenButton.addEventListener('click', toggleFullScreen);
+  fullscreenButton.addEventListener('click', toggleFullScreen);
 
   progress.addEventListener('click', onProgressClick);
 
@@ -107,6 +107,7 @@
   }
 
   function toggleFullScreen() {
+    // Enable fullscreen
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
       if (video.requestFullscreen) {
         video.requestFullscreen();
@@ -117,7 +118,10 @@
       } else if (video.webkitRequestFullscreen) {
         video.webkitRequestFullscreen(video.ALLOW_KEYBOARD_INPUT);
       }
+
+      fullscreenButton.classList.add('enabled');
     } else {
+      // Disable fullscreen
       if (video.exitFullscreen) {
         video.exitFullscreen();
       } else if (video.msExitFullscreen) {
@@ -127,6 +131,8 @@
       } else if (video.webkitExitFullscreen) {
         video.webkitExitFullscreen();
       }
+
+      fullscreenButton.classList.remove('enabled');
     }
   }
 

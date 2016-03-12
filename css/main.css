@@ -198,6 +198,10 @@ textarea {
 custom styles
 */
 
+*:focus {
+  outline: none;
+}
+
 video::-webkit-media-controls {
   display: none;
 }
@@ -425,8 +429,15 @@ video {
   font-size: 10px;
 }
 
+.controls .fullscreen.enabled .enter-fullscreen {
+  display: none;
+}
+
+.controls .fullscreen:not(.enabled) .exit-fullscreen {
+  display: none;
+}
+
 .controls .fullscreen:hover .fill,
 .controls .fullscreen:focus .fill {
   fill: #00adef;
 }
-

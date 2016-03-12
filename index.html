@@ -16,7 +16,7 @@
         <p>Hello sahat! This is HTML5 Boilerplate.</p>
 
         <div class="player">
-            <video id="player" preload poster="img/preview.png">
+            <video preload poster="img/preview.png">
                 <source src="https://dl.dropboxusercontent.com/u/14131013/g-senjou-no-maou-op.mp4" type="video/mp4">
                 Sorry, your browser doesn't support HTML5 video playback.
             </video>
@@ -36,27 +36,13 @@
                 </button>
                 <div id="play-bar" class="play-bar">
                     <div class="progress">
-                        <div class="buffer hidden">
-                            <svg width="110%" tabindex="-1">
-                                <defs>
-                                    <pattern id="buffer" patternUnits="userSpaceOnUse" x="0" y="0" width="10" height="10" viewBox="0 0 10 10">
-                                        <line x1="5" y1="-1" x2="-5" y2="10" stroke-width="2" stroke="#666" stroke-linecap="butt"></line>
-                                        <line x1="10" y1="-1" x2="0" y2="10" stroke-width="2" stroke="#666" stroke-linecap="butt"></line>
-                                        <line x1="15" y1="-1" x2="5" y2="10" stroke-width="2" stroke="#666" stroke-linecap="butt"></line>
-                                    </pattern>
-                                </defs>
-                                <rect fill="url(#buffer)" width="100%" height="100%"></rect>
-                            </svg>
-                        </div>
-
                         <div class="loaded" role="progressbar" aria-label="loaded"></div>
                         <div class="played" role="progressbar" aria-label="played"></div>
-
                         <div class="ghost-timecode" role="presentation" aria-hidden="true">
-                            <span>00:23</span>
+                            <span></span>
                         </div>
                         <div class="timecode" role="presentation" aria-hidden="true">
-                            <span>02:09</span>
+                            <span></span>
                         </div>
                     </div>
                     <div class="volume" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="1" tabindex="0" aria-valuenow="1.000" aria-valuetext="100%">
@@ -76,14 +62,14 @@
                                 <polyline class="fill" points="6,6 5.9,2 4.9,3 2.9,1 1,2.9 3,4.9 2,5.9" transform="translate(6,6) rotate(270)"></polyline>
                             </svg>
                         </div>
-                        <!--<div class="exit-fullscreen">-->
-                            <!--<svg viewBox="0 0 12 12" preserveAspectRatio="xMidYMid" tabindex="-1">-->
-                                <!--<polyline class="fill" points="-1,-1 -1.1,-5 -2.1,-4 -4.1,-6 -6,-4.1 -4,-2.1 -5,-1.1" transform="translate(6,6) "></polyline>-->
-                                <!--<polyline class="fill" points="-1,-1 -1.1,-5 -2.1,-4 -4.1,-6 -6,-4.1 -4,-2.1 -5,-1.1" transform="translate(6,6) rotate(90)"></polyline>-->
-                                <!--<polyline class="fill" points="-1,-1 -1.1,-5 -2.1,-4 -4.1,-6 -6,-4.1 -4,-2.1 -5,-1.1" transform="translate(6,6) rotate(180)"></polyline>-->
-                                <!--<polyline class="fill" points="-1,-1 -1.1,-5 -2.1,-4 -4.1,-6 -6,-4.1 -4,-2.1 -5,-1.1" transform="translate(6,6) rotate(270)"></polyline>-->
-                            <!--</svg>-->
-                        <!--</div>-->
+                        <div class="exit-fullscreen">
+                            <svg viewBox="0 0 12 12" preserveAspectRatio="xMidYMid" tabindex="-1">
+                                <polyline class="fill" points="-1,-1 -1.1,-5 -2.1,-4 -4.1,-6 -6,-4.1 -4,-2.1 -5,-1.1" transform="translate(6,6) "></polyline>
+                                <polyline class="fill" points="-1,-1 -1.1,-5 -2.1,-4 -4.1,-6 -6,-4.1 -4,-2.1 -5,-1.1" transform="translate(6,6) rotate(90)"></polyline>
+                                <polyline class="fill" points="-1,-1 -1.1,-5 -2.1,-4 -4.1,-6 -6,-4.1 -4,-2.1 -5,-1.1" transform="translate(6,6) rotate(180)"></polyline>
+                                <polyline class="fill" points="-1,-1 -1.1,-5 -2.1,-4 -4.1,-6 -6,-4.1 -4,-2.1 -5,-1.1" transform="translate(6,6) rotate(270)"></polyline>
+                            </svg>
+                        </div>
                     </button>
                 </div>
                 <!--<button type="button" id="mute">Mute</button>-->
