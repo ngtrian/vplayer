@@ -53,6 +53,7 @@
   //seekBar.addEventListener("mouseup", onSeekBarMouseUp);
 
 
+  // $(document).ready() equivalent for HTML5 video
   video.addEventListener('canplay', function() {
     // Set ARIA accessibility attributes
     progressPlayed.setAttribute('aria-valuemin', 0);
@@ -64,8 +65,12 @@
     // Get total video duration in hh:mm:ss format
     var totalFormattedTime = secondsToHms(video.duration);
 
+    // Fade in tooltip with total duration
     timeCode.style.opacity = 1;
     timeCodeText.innerHTML = totalFormattedTime;
+
+    // Fade in video controls
+    controls.style.opacity = 1;
   });
 
   // Update progress bar as the video plays

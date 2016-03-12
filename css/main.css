@@ -218,7 +218,7 @@ video {
 }
 
 .controls {
-  opacity: 1;
+  opacity: 0;
   transition: opacity .25s ease-out;
   position: absolute;
   bottom: 0;
