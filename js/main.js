@@ -16,6 +16,8 @@
 
   // Sliders
   var progress = document.querySelector('.controls .progress');
+  var timeCode = document.querySelector('.controls .timecode');
+  var timeCodeText = document.querySelector('.controls .timecode span');
   var ghostTimeCode = document.querySelector('.controls .ghost-timecode');
   var ghostTimeCodeText = document.querySelector('.controls .ghost-timecode span');
   var progressPlayed = document.querySelector('.controls .progress .played');
@@ -112,8 +114,19 @@
     // Set ARIA accessibility attributes
     progressPlayed.setAttribute('aria-valuenow', video.currentTime);
 
-    // Update progress bar
-    progressPlayed.style.width = (video.currentTime / video.duration) * 100 + '%';
+    // Returns current time in percentage
+    var playedPercent = (video.currentTime / video.duration) * 100;
+
+    // Update played progress
+    progressPlayed.style.width =  playedPercent + '%';
+
+    // Calculate current time using "hh:mm:ss" format
+    var relFormattedTime = secondsToHms(video.currentTime);
+
+    // Update timestamp relative to played progress
+    timeCode.style.left = playedPercent + '%';
+    timeCodeText.innerHTML = relFormattedTime;
+
   }
 
   function onSeekBarChange() {
