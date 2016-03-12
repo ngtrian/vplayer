@@ -233,10 +233,10 @@ video {
   left: 0;
   right: 0;
   padding: 10px;
-  z-index: 8;
   display: flex;
   -webkit-box-align: end;
   align-items: flex-end;
+  z-index: 2147483647; /* show controls in fullscreen */
 }
 
 .controls .play {
