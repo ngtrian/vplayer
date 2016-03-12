@@ -329,13 +329,13 @@ video::-webkit-media-controls-enclosure {
    ========================================================================== */
 
 .fadeIn {
-  animation-duration: 1s;
+  animation-duration: 1.2s;
   animation-fill-mode: both;
   animation-name: fadeIn;
 }
 
 .zoomInBackwards {
-  animation: 0.5s 0.2s zoomIn backwards;
+  animation: 0.75s 0.3s zoomIn backwards;
 }
 
 @keyframes zoomIn {
