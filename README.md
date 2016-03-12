@@ -8,3 +8,4 @@
 * <img src="http://i.imgur.com/a8vMYZ2.png" width="16" height="16"> Scrubbing by clicking and dragging on the progress bar
 * <img src="http://i.imgur.com/a8vMYZ2.png" width="16" height="16"> Volume controls
 * <img src="http://i.imgur.com/a8vMYZ2.png" width="16" height="16"> Full screen support (double-click video)
+* <img src="http://i.imgur.com/a8vMYZ2.png" width="16" height="16"> Replay button at the end of the video
