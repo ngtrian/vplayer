@@ -271,7 +271,8 @@ var VPlayer = (function() {
   function onProgressDragStart(event) {
     pause();
     scrubVideo(event);
-    progress.addEventListener('mousemove', onProgressDragOver);
+    player.classList.add('scrubbing');
+    player.addEventListener('mousemove', onProgressDragOver);
   }
 
   function onProgressDragOver(event) {
@@ -279,7 +280,8 @@ var VPlayer = (function() {
   }
 
   function onProgressDragStop() {
-    progress.removeEventListener('mousemove', onProgressDragOver);
+    player.classList.remove('scrubbing');
+    player.removeEventListener('mousemove', onProgressDragOver);
   }
 
   function scrubVideo(event) {
@@ -288,6 +290,15 @@ var VPlayer = (function() {
 
     // Returns mouse cursor position in pixels relative to the progress bar element
     var relX = event.pageX - (rect.left + document.body.scrollLeft);
+
+    // For better UX, scrubbing event is attached to the entire player container,
+    // which is wider than the progress bar. That's why we need to constrain relative position
+    // to the beginning of the progress bar (0px) until the end (467px or progress.offsetWidth)
+    if (relX < 0) {
+      relX = 0;
+    } else if (relX > progress.offsetWidth) {
+      relX = progress.offsetWidth;
+    }
 
     // Returns mouse cursor position in percentage relative to the progress bar element
     var relXPercent = (relX / progress.offsetWidth) * 100;

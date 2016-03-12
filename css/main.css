@@ -178,6 +178,12 @@ video::-webkit-media-controls-enclosure {
   transition: width .2s cubic-bezier(.17, 0, .09, 1);
 }
 
+.scrubbing {
+  cursor: -moz-grabbing !important;
+  cursor: -webkit-grabbing !important;
+  cursor: grabbing !important;
+}
+
 /* ==========================================================================
    Controls: Progress bar → Timestamp tooltips
    ========================================================================== */
