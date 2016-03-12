@@ -187,6 +187,20 @@
     ghostTimeCode.style.opacity = 0;
   }
 
+  function onProgressClick() {
+    // Returns the size of an element and its position relative to the viewport.
+    var rect = progress.getBoundingClientRect();
+
+    // Returns mouse cursor position in pixels relative to the progress bar element
+    var relX = event.pageX - (rect.left + document.body.scrollLeft);
+
+    // Returns mouse cursor position in percentage relative to the progress bar element
+    var relXPercent = (relX / progress.offsetWidth) * 100;
+
+    // Set video time relative to mouse cursor
+    video.currentTime = (video.duration * relXPercent) / 100;
+  }
+
   function updateProgressBuffered() {
     console.log(video.buffered);
     if (video.buffered.length > 0) {
