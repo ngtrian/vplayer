@@ -216,22 +216,24 @@ var VPlayer = (function() {
   }
 
   function onProgressMouseOver(event) {
-    // Returns the size of an element and its position relative to the viewport
-    var rect = progress.getBoundingClientRect();
+    if (!isNaN(video.duration)) {
+      // Returns the size of an element and its position relative to the viewport
+      var rect = progress.getBoundingClientRect();
 
-    // Returns mouse cursor position in pixels relative to the progress bar element
-    var relX = event.pageX - (rect.left + document.body.scrollLeft);
+      // Returns mouse cursor position in pixels relative to the progress bar element
+      var relX = event.pageX - (rect.left + document.body.scrollLeft);
 
-    // Returns mouse cursor position in percentage relative to the progress bar element
-    var relXPercent = (relX / progress.offsetWidth) * 100;
+      // Returns mouse cursor position in percentage relative to the progress bar element
+      var relXPercent = (relX / progress.offsetWidth) * 100;
 
-    // Calculate video duration relative to mouse cursor using "hh:mm:ss" format
-    var relFormattedTime = secondsToHms((video.duration * relXPercent) / 100);
+      // Calculate video duration relative to mouse cursor using "hh:mm:ss" format
+      var relFormattedTime = secondsToHms((video.duration * relXPercent) / 100);
 
-    // Display tooltip with timestamp relative to mouse cursor
-    ghostTimeCode.style.opacity = 1;
-    ghostTimeCode.style.left = relXPercent + '%';
-    ghostTimeCodeText.innerHTML = relFormattedTime;
+      // Display tooltip with timestamp relative to mouse cursor
+      ghostTimeCode.style.opacity = 1;
+      ghostTimeCode.style.left = relXPercent + '%';
+      ghostTimeCodeText.innerHTML = relFormattedTime;
+    }
   }
 
   function onProgressMouseOut() {
