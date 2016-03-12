@@ -1,38 +1,37 @@
-// todo: convert to module pattern
-// https://toddmotto.com/mastering-the-module-pattern/
-
-// Avoid `console` errors in browsers that lack a console.
-(function() {
-
+var VPlayer = (function() {
+  /**
+   * Video player
+   */
   var player = document.querySelector('.player');
+  var video = document.querySelector('video');
   var controls = document.querySelector('.controls');
 
-  // Video
-  var video = document.querySelector('video');
-
-  // Buttons
-  var playButton = document.getElementById('play-btn');
+  /**
+   * Controls → Buttons
+   */
+  var playButton = document.querySelector('.play');
+  var volume = document.querySelector('.volume');
   var fullscreenButton = document.querySelector('.fullscreen');
 
-  // Sliders
+  /**
+   * Controls → Progress bar
+   */
   var progress = document.querySelector('.controls .progress');
+  var progressPlayed = document.querySelector('.controls .progress .played');
+  var progressLoaded = document.querySelector('.controls .progress .loaded');
   var timeCode = document.querySelector('.controls .timecode');
   var timeCodeText = document.querySelector('.controls .timecode span');
   var ghostTimeCode = document.querySelector('.controls .ghost-timecode');
   var ghostTimeCodeText = document.querySelector('.controls .ghost-timecode span');
-  var progressPlayed = document.querySelector('.controls .progress .played');
-  var progressLoaded = document.querySelector('.controls .progress .loaded');
 
-  var volume = document.querySelector('.volume');
-
-  // Event listener for the play/pause button
+  /**
+   * Events
+   */
   video.addEventListener('click', togglePlayPause);
   playButton.addEventListener('click', togglePlayPause);
 
-  // Event listener for the volume bar
   volume.addEventListener('click', changeVolume);
 
-  // Event listener for the full-screen button
   video.addEventListener('dblclick', toggleFullScreen);
   fullscreenButton.addEventListener('click', toggleFullScreen);
 
@@ -40,67 +39,47 @@
   progress.addEventListener('mousemove', onProgressMouseOver);
   progress.addEventListener('mouseout', onProgressMouseOut);
 
-  progress.addEventListener('mousedown', onProgressDragStart);
   document.addEventListener('mouseup', onProgressDragStop);
+  progress.addEventListener('mousedown', onProgressDragStart);
 
-  // $(document).ready() equivalent for HTML5 video
-  video.addEventListener('canplay', function() {
+  video.addEventListener('canplay', initializeVideoElements);
+  video.addEventListener('timeupdate', updateProgressPlayed);
+  video.addEventListener('progress', updateProgressBuffered);
+
+  player.addEventListener('mouseout', hideControls);
+  player.addEventListener('mousemove', showControls);
+  player.addEventListener('mousemove', debounce(hideControls, 2000));
+
+  /**
+   * Event handlers
+   */
+  function initializeVideoElements() {
     // Set ARIA accessibility attributes
     progressPlayed.setAttribute('aria-valuemin', 0);
     progressPlayed.setAttribute('aria-valuemax', video.duration);
-
     progressLoaded.setAttribute('aria-valuemin', 0);
     progressLoaded.setAttribute('aria-valuemax', video.duration);
 
     // Get total video duration in hh:mm:ss format
     var totalFormattedTime = secondsToHms(video.duration);
 
-    // Fade in tooltip with total duration
+    // Fade in tooltip with total video duration
     timeCode.style.opacity = 1;
     timeCodeText.innerHTML = totalFormattedTime;
 
     // Fade in video controls
-    controls.style.opacity = 1;
-  });
-
-  // Update progress bar as the video plays
-  video.addEventListener('timeupdate', updateProgressPlayed);
-
-  video.addEventListener('progress', updateProgressBuffered);
-
-
-  player.addEventListener('mouseout', hideControls);
-  player.addEventListener('mousemove', showControls);
-  player.addEventListener('mousemove', debounce(hideControls, 2000));
+    showControls();
+  }
 
   function hideControls() {
-
+    // Hide controls only after video has initiated a playback
     if (video.played.length > 0) {
       controls.style.opacity = 0;
     }
   }
 
   function showControls() {
-    if (video.played.length > 0) {
-      controls.style.opacity = 1;
-
-    }
-
-    var timeout;
-    if (timeout) {
-      window.clearTimeout(timeout);
-    }
-    timeout = setTimeout(function () {
-      console.log('hi');
-    }, 1000);
-  }
-
-  function togglePlayPause() {
-    if (video.paused == true) {
-      play();
-    } else {
-      pause();
-    }
+    controls.style.opacity = 1;
   }
 
   function play() {
@@ -113,6 +92,14 @@
     video.pause();
     playButton.classList.remove('playing');
     playButton.classList.add('paused');
+  }
+
+  function togglePlayPause() {
+    if (video.paused) {
+      play();
+    } else {
+      pause();
+    }
   }
 
   function changeVolume(event) {
@@ -177,7 +164,7 @@
   }
 
   function toggleFullScreen() {
-    // Enable fullscreen
+    // Enter fullscreen
     if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
       if (video.requestFullscreen) {
         video.requestFullscreen();
@@ -188,10 +175,9 @@
       } else if (video.webkitRequestFullscreen) {
         video.webkitRequestFullscreen(video.ALLOW_KEYBOARD_INPUT);
       }
-
-      fullscreenButton.classList.add('enabled');
+      fullscreenButton.classList.add('is-fullscreen');
     } else {
-      // Disable fullscreen
+      // Exit fullscreen
       if (video.exitFullscreen) {
         video.exitFullscreen();
       } else if (video.msExitFullscreen) {
@@ -201,8 +187,7 @@
       } else if (video.webkitExitFullscreen) {
         video.webkitExitFullscreen();
       }
-
-      fullscreenButton.classList.remove('enabled');
+      fullscreenButton.classList.remove('is-fullscreen');
     }
   }
 
@@ -222,25 +207,6 @@
     // Update timestamp relative to played progress
     timeCode.style.left = playedPercent + '%';
     timeCodeText.innerHTML = relFormattedTime;
-  }
-
-  function secondsToHms(d) {
-    d = Number(d);
-    var h = Math.floor(d / 3600);
-    var m = Math.floor(d % 3600 / 60);
-    var s = Math.floor(d % 3600 % 60);
-    return (h > 0 ? h + ':' : '') + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
-  }
-
-  function debounce(fn, delay) {
-    var timer = null;
-    return function () {
-      var context = this, args = arguments;
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        fn.apply(context, args);
-      }, delay);
-    };
   }
 
   function onProgressMouseOver(event) {
@@ -304,13 +270,11 @@
     pause();
     scrubVideo();
     progress.addEventListener('mousemove', onProgressDragOver);
-
   }
 
   function onProgressDragOver() {
     scrubVideo();
   }
-
 
   function onProgressDragStop() {
     progress.removeEventListener('mousemove', onProgressDragOver);
@@ -330,7 +294,6 @@
     var relTime = (video.duration * relXPercent) / 100;
     var relFormattedTime = secondsToHms((video.duration * relXPercent) / 100);
 
-
     // Set ARIA accessibility attributes
     progressPlayed.setAttribute('aria-valuenow', video.currentTime);
 
@@ -347,4 +310,25 @@
     timeCodeText.innerHTML = relFormattedTime;
   }
 
-}());
+  /**
+   * Utilities
+   */
+  function secondsToHms(date) {
+    date = Number(date);
+    var h = Math.floor(date / 3600);
+    var m = Math.floor(date % 3600 / 60);
+    var s = Math.floor(date % 3600 % 60);
+    return (h > 0 ? h + ':' : '') + (m < 10 ? '0' : '') + m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function debounce(fn, delay) {
+    var timer = null;
+    return function() {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function() {
+        fn.apply(context, args);
+      }, delay);
+    };
+  }
+})();
