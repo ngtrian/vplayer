@@ -214,6 +214,10 @@ video::-webkit-media-controls-enclosure {
   position: relative;
   width: 640px;
   height: 360px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .player button {
@@ -324,6 +328,7 @@ video {
   opacity: 0;
   margin: -23px 0 0 -12px;
   transition: opacity .25s ease-out;
+  pointer-events: none;
 }
 
 .controls .ghost-timecode {
@@ -400,20 +405,34 @@ video {
   bottom: 0;
 }
 
+.controls .volume > div.fill0 {
+  background-color: #666;
+}
+.controls .volume > div.fill1 {
+  box-shadow: inset -2px 0 0 #666;
+}
+.controls .volume > div.fill2 {
+  box-shadow: inset -1px 0 0 #666;
+}
+
 .controls .volume > div:nth-child(2) {
-  left: 5px;
+  margin-left: 5px;
 }
 
 .controls .volume > div:nth-child(3) {
-  left: 10px;
+  margin-left: 10px;
 }
 
 .controls .volume > div:nth-child(4) {
-  left: 15px;
+  margin-left: 15px;
 }
 
 .controls .volume > div:nth-child(5) {
-  left: 20px;
+  margin-left: 20px;
+}
+
+.controls .volume > div:hover {
+  height: 15px;
 }
 
 .controls .fill {
