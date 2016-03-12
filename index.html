@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Video Player</title>
+        <title>VPlayer</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -12,16 +12,13 @@
         <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <!-- Add your site or application content here -->
-        <p>Hello sahat! This is HTML5 Boilerplate.</p>
-
         <div class="player">
             <video preload poster="img/preview.png">
                 <source src="https://dl.dropboxusercontent.com/u/14131013/g-senjou-no-maou-op.mp4" type="video/mp4">
                 Sorry, your browser doesn't support HTML5 video playback.
             </video>
             <div class="controls">
-                <button id="play-btn" class="play paused" aria-label="Play">
+                <button class="play paused" aria-label="Play">
                     <div class="play-icon">
                         <svg viewBox="0 0 20 20" preserveAspectRatio="xMidYMid">
                             <polygon fill="#fff" points="1,0 20,10 1,20"/>
@@ -34,7 +31,7 @@
                         </svg>
                     </div>
                 </button>
-                <div id="play-bar" class="play-bar">
+                <div class="play-bar">
                     <div class="progress">
                         <div class="loaded" role="progressbar" aria-label="loaded"></div>
                         <div class="played" role="progressbar" aria-label="played"></div>
@@ -45,14 +42,13 @@
                             <span></span>
                         </div>
                     </div>
-                    <div class="volume" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="1" tabindex="0" aria-valuenow="1.000" aria-valuetext="100%">
+                    <div class="volume" role="slider" aria-label="Volume" aria-valuemin="0" aria-valuemax="1" tabindex="0">
                         <div></div>
                         <div></div>
                         <div></div>
                         <div></div>
                         <div></div>
                     </div>
-
                     <button class="fullscreen" title="Toggle full screen" aria-label="Fullscreen">
                         <div class="enter-fullscreen">
                             <svg viewBox="0 0 12 12" preserveAspectRatio="xMidYMid" tabindex="-1">
@@ -72,13 +68,9 @@
                         </div>
                     </button>
                 </div>
-                <!--<button type="button" id="mute">Mute</button>-->
-                <!--<input type="range" id="volume-bar" min="0" max="1" step="0.1" value="1">-->
-                <!--<button type="button" id="full-screen">Full-Screen</button>-->
             </div>
         </div>
 
-        <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
     </body>
 </html>
