@@ -1,5 +1,3 @@
-//todo: after it finishes, progressbar resests back to previous time
-// todo: show controls after video is over, pause video
 var VPlayer = (function() {
   /**
    * Video player
@@ -37,12 +35,11 @@ var VPlayer = (function() {
   video.addEventListener('dblclick', toggleFullScreen);
   fullscreenButton.addEventListener('click', toggleFullScreen);
 
-  progress.addEventListener('click', onProgressClick);
   progress.addEventListener('mousemove', onProgressMouseOver);
   progress.addEventListener('mouseout', onProgressMouseOut);
-
   document.addEventListener('mouseup', onProgressDragStop);
   progress.addEventListener('mousedown', onProgressDragStart);
+  progress.addEventListener('click', onProgressClick);
 
   video.addEventListener('canplay', initializeVideoElements);
   video.addEventListener('timeupdate', updateProgressPlayed);
@@ -107,10 +104,10 @@ var VPlayer = (function() {
   }
 
   function changeVolume(event) {
-    var TOTAL_BAR_WIDTH = 4.8;
     var TOTAL_BARS = 5;
+    var TOTAL_BAR_WIDTH = 4.8;
 
-    // Get first volume bar
+    // Get the first volume bar
     var volumeBar = volume.firstElementChild;
 
     // Returns the size of an element and its position relative to the viewport
@@ -138,7 +135,7 @@ var VPlayer = (function() {
           if (order === i) {
             // This condition is more lenient than the second because it is more visually pleasing
             // to have a small partial fill for a greater range of values between 0 and 1
-            // Defaults to `TOTAL_BAR_WIDTH` since `position` is initially 0, which will result in NaN value
+            // Defaults to `TOTAL_BAR_WIDTH` since `position` is initially 0, and that will result in NaN value
             var remainder = relX % (position || TOTAL_BAR_WIDTH);
             if (remainder > 0 && Math.floor(remainder) <= 1) {
               volumeBar.classList.add('fill-1');
@@ -155,7 +152,7 @@ var VPlayer = (function() {
         volumeBar = volumeBar.nextElementSibling;
       }
 
-      // Increment by bar width (3px) + spacing (1.8px)
+      // Increment by 4.8px: bar width (3px) + spacing (1.8px)
       position += TOTAL_BAR_WIDTH;
     }
 
@@ -237,7 +234,7 @@ var VPlayer = (function() {
     ghostTimeCode.style.opacity = 0;
   }
 
-  function onProgressClick() {
+  function onProgressClick(event) {
     // Returns the size of an element and its position relative to the viewport
     var rect = progress.getBoundingClientRect();
 
@@ -247,9 +244,8 @@ var VPlayer = (function() {
     // Returns mouse cursor position in percentage relative to the progress bar element
     var relXPercent = (relX / progress.offsetWidth) * 100;
 
-    // Set video time relative to mouse cursor
+    // Set video time relative to mouse cursor and start playback
     video.currentTime = (video.duration * relXPercent) / 100;
-
     play();
   }
 
@@ -265,7 +261,6 @@ var VPlayer = (function() {
 
         // Set ARIA accessibility attributes
         progressLoaded.setAttribute('aria-valuenow', bufferedAmount);
-
       }
     }
   }
@@ -273,10 +268,11 @@ var VPlayer = (function() {
   function onVideoEnd() {
     showControls();
     playButton.classList.remove('playing');
-    playButton.classList.add('ended')
+    playButton.classList.add('ended');
   }
 
   function onProgressDragStart(event) {
+    // Pause video and change mouse cursor to "grabbing" while scrubbing a video
     pause();
     scrubVideo(event);
     player.classList.add('scrubbing');
@@ -324,9 +320,7 @@ var VPlayer = (function() {
     // Update played progress
     progressPlayed.style.width = playedPercent + '%';
 
-    // Calculate current time using "hh:mm:ss" format
-
-    // Update timestamp relative to played progress
+    // Update timestamp relative to the played progress
     timeCode.style.left = playedPercent + '%';
     timeCodeText.innerHTML = relFormattedTime;
   }
