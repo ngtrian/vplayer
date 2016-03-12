@@ -39,7 +39,6 @@ var VPlayer = (function() {
   progress.addEventListener('mouseout', onProgressMouseOut);
   document.addEventListener('mouseup', onProgressDragStop);
   progress.addEventListener('mousedown', onProgressDragStart);
-  progress.addEventListener('click', onProgressClick);
 
   video.addEventListener('canplay', initializeVideoElements);
   video.addEventListener('timeupdate', updateProgressPlayed);
@@ -234,21 +233,6 @@ var VPlayer = (function() {
     ghostTimeCode.style.opacity = 0;
   }
 
-  function onProgressClick(event) {
-    // Returns the size of an element and its position relative to the viewport
-    var rect = progress.getBoundingClientRect();
-
-    // Returns mouse cursor position in pixels relative to the progress bar element
-    var relX = event.pageX - (rect.left + document.body.scrollLeft);
-
-    // Returns mouse cursor position in percentage relative to the progress bar element
-    var relXPercent = (relX / progress.offsetWidth) * 100;
-
-    // Set video time relative to mouse cursor and start playback
-    video.currentTime = (video.duration * relXPercent) / 100;
-    play();
-  }
-
   function updateProgressBuffered() {
     if (video.buffered.length > 0) {
       var bufferedEnd = video.buffered.end(video.buffered.length - 1);
@@ -286,6 +270,7 @@ var VPlayer = (function() {
   function onProgressDragStop() {
     player.classList.remove('scrubbing');
     player.removeEventListener('mousemove', onProgressDragOver);
+    play();
   }
 
   function scrubVideo(event) {
@@ -323,6 +308,9 @@ var VPlayer = (function() {
     // Update timestamp relative to the played progress
     timeCode.style.left = playedPercent + '%';
     timeCodeText.innerHTML = relFormattedTime;
+
+    // Set video time relative to mouse cursor, but do not start playback yet
+    video.currentTime = (video.duration * relXPercent) / 100;
   }
 
   /**
