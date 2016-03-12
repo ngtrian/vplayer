@@ -4,7 +4,7 @@
 // Avoid `console` errors in browsers that lack a console.
 (function() {
 
-  var player = document.getElementsByClassName('player')[0];
+  var player = document.querySelector('.player');
   var controls = document.getElementsByClassName('controls')[0];
 
   // Video
@@ -79,12 +79,13 @@
   video.addEventListener('progress', updateProgressBuffered);
 
   player.addEventListener('mouseout', function() {
-    if (video.played.length === 1) {
+    if (video.played.length > 0) {
       controls.style.opacity = 0;
     }
   });
   player.addEventListener('mouseover', function() {
-    if (video.played.length === 1) {
+    console.log(video.played.length);
+    if (video.played.length > 0) {
       controls.style.opacity = 1;
     }
   });
@@ -207,7 +208,6 @@
   }
 
   function updateProgressBuffered() {
-    console.log(video.buffered);
     if (video.buffered.length > 0) {
       var bufferedEnd = video.buffered.end(video.buffered.length - 1);
       var duration = video.duration;
