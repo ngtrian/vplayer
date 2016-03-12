@@ -23,24 +23,21 @@
   var progressPlayed = document.querySelector('.controls .progress .played');
   var progressLoaded = document.querySelector('.controls .progress .loaded');
 
-  var seekBar = document.getElementById('seek-bar');
-  var volumeBar = document.getElementById('volume-bar');
+  var volume = document.querySelector('.volume');
 
   // Event listener for the play/pause button
   video.addEventListener('click', togglePlayPause);
   playButton.addEventListener('click', togglePlayPause);
 
   // Event listener for the volume bar
-  //volumeBar.addEventListener("change", changeVolume);
+  volume.addEventListener('click', changeVolume);
 
   // Event listener for the full-screen button
   video.addEventListener('dblclick', toggleFullScreen);
   fullscreenButton.addEventListener('click', toggleFullScreen);
 
   progress.addEventListener('click', onProgressClick);
-
   progress.addEventListener('mousemove', onProgressMouseOver);
-
   progress.addEventListener('mouseout', onProgressMouseOut);
 
   //// Event listener for the seek bar
@@ -84,7 +81,6 @@
     }
   });
   player.addEventListener('mouseover', function() {
-    console.log(video.played.length);
     if (video.played.length > 0) {
       controls.style.opacity = 1;
     }
@@ -102,8 +98,66 @@
     }
   }
 
-  function changeVolume() {
-    video.volume = volumeBar.value;
+  function changeVolume(event) {
+    var TOTAL_BAR_WIDTH = 4.8;
+    var TOTAL_BARS = 5;
+
+    // Get first volume bar
+    var volumeBar = volume.firstElementChild;
+
+    // Returns the size of an element and its position relative to the viewport
+    var rect = volume.getBoundingClientRect();
+
+    // Returns mouse cursor position in pixels relative to the volume control
+    var relX = event.pageX - (rect.left + document.body.scrollLeft);
+
+    // Keep track of how far it's "scanned" volume control, incrementing by 4.8 in each loop iteration
+    // Each bar is 3px (plus 1.8px for spacing)
+    // Total volume control width is 24px
+    var position = 0;
+
+    for (var i = 0; i < TOTAL_BARS; i++) {
+      if (volumeBar) {
+        // Keep volume bars before mouse cursor as-is (blue color)
+        if (relX > position) {
+          // Clean up previous classes
+          volumeBar.classList.remove('fill0', 'fill1', 'fill2');
+
+          // Handle partial volume bar fills
+          // The outer if-condition makes sure it applies partial fill to the correct bar
+          // It defaults to 0 since first bar will have `relX` less than the total bar width
+          var order = relX > TOTAL_BAR_WIDTH ? Math.floor(relX / TOTAL_BAR_WIDTH) : 0;
+          if (order === i) {
+            // This condition is more lenient than the second because it is more visually pleasing
+            // to have a small partial fill for a greater range of values between 0 and 1
+            // Defaults to `TOTAL_BAR_WIDTH` since `position` is initially 0, which will result in NaN value
+            var remainder = relX % (position || TOTAL_BAR_WIDTH);
+            if (remainder > 0 && Math.floor(remainder) <= 1) {
+              volumeBar.classList.add('fill1');
+            } else if (Math.floor(remainder) === 2) {
+              volumeBar.classList.add('fill2');
+            }
+          }
+        } else {
+          // Grey-out volume bars after mouse cursor
+          volumeBar.classList.add('fill0');
+        }
+
+        // Go to next volume bar
+        volumeBar = volumeBar.nextElementSibling;
+      }
+
+      // Increment by bar width (3px) + spacing (1.8px)
+      position += TOTAL_BAR_WIDTH;
+    }
+    // Returns mouse cursor position in percentage relative to the progress bar element
+
+    // Set ARIA accessibility attributes
+    volume.setAttribute('aria-valuenow', parseFloat(relX / volume.offsetWidth).toFixed(2));
+    volume.setAttribute('aria-valuetext', Math.round((relX / volume.offsetWidth) * 100) + '%');
+
+    // Update the actual video volume
+    video.volume = relX / volume.offsetWidth;
   }
 
   function toggleFullScreen() {
@@ -176,7 +230,7 @@
   }
 
   function onProgressMouseOver(event) {
-    // Returns the size of an element and its position relative to the viewport.
+    // Returns the size of an element and its position relative to the viewport
     var rect = progress.getBoundingClientRect();
 
     // Returns mouse cursor position in pixels relative to the progress bar element
@@ -200,7 +254,7 @@
   }
 
   function onProgressClick() {
-    // Returns the size of an element and its position relative to the viewport.
+    // Returns the size of an element and its position relative to the viewport
     var rect = progress.getBoundingClientRect();
 
     // Returns mouse cursor position in pixels relative to the progress bar element
