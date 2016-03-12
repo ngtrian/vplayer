@@ -271,6 +271,7 @@ var VPlayer = (function() {
   }
 
   function onVideoEnd() {
+    showControls();
     playButton.classList.remove('playing');
     playButton.classList.add('ended')
   }
