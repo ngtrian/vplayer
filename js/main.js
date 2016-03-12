@@ -125,7 +125,7 @@ var VPlayer = (function() {
         // Keep volume bars before mouse cursor as-is (blue color)
         if (relX > position) {
           // Clean up previous classes
-          volumeBar.classList.remove('fill0', 'fill1', 'fill2');
+          volumeBar.classList.remove('fill-0', 'fill-1', 'fill-2');
 
           // Handle partial volume bar fills
           // The outer if-condition makes sure it applies partial fill to the correct bar
@@ -137,14 +137,14 @@ var VPlayer = (function() {
             // Defaults to `TOTAL_BAR_WIDTH` since `position` is initially 0, which will result in NaN value
             var remainder = relX % (position || TOTAL_BAR_WIDTH);
             if (remainder > 0 && Math.floor(remainder) <= 1) {
-              volumeBar.classList.add('fill1');
+              volumeBar.classList.add('fill-1');
             } else if (Math.floor(remainder) === 2) {
-              volumeBar.classList.add('fill2');
+              volumeBar.classList.add('fill-2');
             }
           }
         } else {
           // Grey-out volume bars after mouse cursor
-          volumeBar.classList.add('fill0');
+          volumeBar.classList.add('fill-0');
         }
 
         // Go to next volume bar

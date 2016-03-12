@@ -1,13 +1,5 @@
-/*! HTML5 Boilerplate v5.3.0 | MIT License | https://html5boilerplate.com/ */
-
-/*
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
 /* ==========================================================================
-   Base styles: opinionated defaults
+   Base styles
    ========================================================================== */
 
 html {
@@ -18,197 +10,13 @@ html {
   box-sizing: inherit;
 }
 
-html {
-  color: #222;
-  font-size: 1em;
-  line-height: 1.4;
-}
-
-/*
- * Remove text-shadow in selection highlight:
- * https://twitter.com/miketaylr/status/12228805301
- *
- * These selection rule sets have to be separate.
- * Customize the background color to match your design.
- */
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-/*
- * A better looking default horizontal rule
- */
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
-}
-
-/*
- * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
- * https://github.com/h5bp/html5-boilerplate/issues/440
- */
-
-audio,
-canvas,
-iframe,
-img,
-svg,
-video {
-  vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-  resize: vertical;
-}
-
-/* ==========================================================================
-   Browser Upgrade Prompt
-   ========================================================================== */
-
-.browserupgrade {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-/* ==========================================================================
-   Helper classes
-   ========================================================================== */
-
-/*
- * Hide visually and from screen readers
- */
-
-.hidden {
-  display: none !important;
-}
-
-/*
- * Hide only visually, but have it available for screen readers:
- * http://snook.ca/archives/html_and_css/hiding-content-for-accessibility
- */
-
-.visuallyhidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px;
-}
-
-/*
- * Extends the .visuallyhidden class to allow the element
- * to be focusable when navigated to via the keyboard:
- * https://www.drupal.org/node/897638
- */
-
-.visuallyhidden.focusable:active,
-.visuallyhidden.focusable:focus {
-  clip: auto;
-  height: auto;
-  margin: 0;
-  overflow: visible;
-  position: static;
-  width: auto;
-}
-
-/*
- * Hide visually and from screen readers, but maintain layout
- */
-
-.invisible {
-  visibility: hidden;
-}
-
-/*
- * Clearfix: contain floats
- *
- * For modern browsers
- * 1. The space content is one way to avoid an Opera bug when the
- *    `contenteditable` attribute is included anywhere else in the document.
- *    Otherwise it causes space to appear at the top and bottom of elements
- *    that receive the `clearfix` class.
- * 2. The use of `table` rather than `block` is only necessary if using
- *    `:before` to contain the top-margins of child elements.
- */
-
-.clearfix:before,
-.clearfix:after {
-  content: " "; /* 1 */
-  display: table; /* 2 */
-}
-
-.clearfix:after {
-  clear: both;
-}
-
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
-}
-
-@media print,
-(-webkit-min-device-pixel-ratio: 1.25),
-(min-resolution: 1.25dppx),
-(min-resolution: 120dpi) {
-  /* Style adjustments for high resolution devices */
-}
-
-/*
-custom styles
-*/
-
 *:focus {
   outline: none;
 }
 
-video::-webkit-media-controls {
-  display: none;
-}
-
-video::-webkit-media-controls-enclosure {
-  display: none;
-}
+/* ==========================================================================
+   Prmary player and video styles
+   ========================================================================== */
 
 .player {
   position: relative;
@@ -233,18 +41,29 @@ video {
   height: 100%;
 }
 
+video::-webkit-media-controls {
+  display: none;
+}
+
+video::-webkit-media-controls-enclosure {
+  display: none;
+}
+
+/* ==========================================================================
+   Controls: Play/Pause button
+   ========================================================================== */
+
 .controls {
-  opacity: 0;
-  transition: opacity .25s ease-out;
   position: absolute;
+  display: flex;
+  align-items: flex-end;
   bottom: 0;
   left: 0;
   right: 0;
   padding: 10px;
-  display: flex;
-  -webkit-box-align: end;
-  align-items: flex-end;
-  z-index: 2147483647; /* show controls in fullscreen */
+  opacity: 0;
+  transition: opacity .25s ease-out;
+  z-index: 2147483647; /* to show in fullscreen mode */
 }
 
 .controls .play {
@@ -252,8 +71,8 @@ video {
   width: 65px;
   height: 40px;
   margin-right: 10px;
-  color: #fff;
   background: rgba(23, 35, 34, .75);
+  color: #fff;
   border-radius: 5px;
   transition: opacity .25s ease-out, background-color .05s, color .05s;
 }
@@ -265,6 +84,7 @@ video {
 
 .controls .play-icon,
 .controls .pause-icon {
+  margin-top: 3px;
   padding-left: 2px;
 }
 
@@ -282,14 +102,18 @@ video {
   display: none;
 }
 
+/* ==========================================================================
+   Controls: Progress bar
+   ========================================================================== */
+
 .controls .play-bar {
-  background-color: rgba(23, 35, 34, .75);
+  position: relative;
   display: flex;
   flex: 1;
   justify-content: flex-end;
-  position: relative;
   height: 32px;
   padding: 10px;
+  background-color: rgba(23, 35, 34, .75);
   border-radius: 2px;
 }
 
@@ -300,14 +124,11 @@ video {
   cursor: pointer;
 }
 
-.controls .progress .buffer,
-.controls .progress .buffer canvas,
-.controls .progress .buffer svg,
 .controls .progress .loaded,
 .controls .progress .played {
   position: absolute;
-  border: 1px solid transparent;
   height: 100%;
+  border: 1px solid transparent;
   background-clip: padding-box;
 }
 
@@ -317,60 +138,60 @@ video {
 
 .controls .progress .loaded {
   background-color: #666;
-  transition: width .175s cubic-bezier(.18, 0, .07, 1);
+  transition: width .2s cubic-bezier(.17, 0, .09, 1);
 }
+
+/* ==========================================================================
+   Controls: Progress bar → Timestamp tooltips
+   ========================================================================== */
 
 .controls .ghost-timecode,
 .controls .timecode {
   position: absolute;
-  left: 0;
   top: 0;
-  opacity: 0;
+  left: 0;
   margin: -23px 0 0 -12px;
+  opacity: 0;
   transition: opacity .25s ease-out;
   pointer-events: none;
 }
 
-.controls .ghost-timecode {
-  margin-left: 0;
-}
-
 .controls .ghost-timecode span,
 .controls .timecode span {
+  position: relative;
+  left: -50%;
   padding: 2px 4px;
   font-size: 10px;
   font-family: Verdana, sans-serif;
-  position: relative;
-  left: -50%;
   border-radius: 2px;
 }
 
 .controls .ghost-timecode span::before,
 .controls .timecode span::before {
-  margin-left: -20px;
   bottom: -4px;
+  margin-left: -20px;
 }
 
 .controls .ghost-timecode span::after,
 .controls .ghost-timecode span::before,
 .controls .timecode span::after,
 .controls .timecode span::before {
-  content: "";
-  border-left: 3px solid transparent;
-  border-right: 3px solid transparent;
-  border-top: 3px solid transparent;;
+  position: absolute;
   bottom: -3px;
   left: 50%;
   margin-left: -3px;
-  position: absolute;
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-top: 3px solid transparent;
+  content: "";
+}
+
+.controls .ghost-timecode {
+  margin-left: 0;
 }
 
 .controls .ghost-timecode span::after {
   border-top-color: rgba(23, 35, 34, .85);
-}
-
-.controls .timecode span::after {
-  border-top-color: #fff;
 }
 
 .controls .ghost-timecode span {
@@ -382,10 +203,15 @@ video {
   background: #fff;
   color: #000;
   margin-left: 23px;
-  cursor: -webkit-grab;
-  cursor: -moz-grab;
-  cursor: grab;
 }
+
+.controls .timecode span::after {
+  border-top-color: #fff;
+}
+
+/* ==========================================================================
+   Controls: Volume
+   ========================================================================== */
 
 .controls .volume {
   position: relative;
@@ -396,64 +222,70 @@ video {
 }
 
 .controls .volume > div {
-  background-color: #00adef;
-  display: block;
   position: absolute;
+  display: block;
   width: 3px;
   height: 12px;
-  left: 0;
   bottom: 0;
+  left: 0;
+  background-color: #00adef;
 }
 
-.controls .volume > div.fill0 {
+.controls .volume > div.fill-0 {
   background-color: #666;
 }
-.controls .volume > div.fill1 {
+
+.controls .volume > div.fill-1 {
   box-shadow: inset -2px 0 0 #666;
 }
-.controls .volume > div.fill2 {
+
+.controls .volume > div.fill-2 {
   box-shadow: inset -1px 0 0 #666;
 }
 
 .controls .volume > div:nth-child(2) {
-  margin-left: 5px;
+  left: 5px;
 }
 
 .controls .volume > div:nth-child(3) {
-  margin-left: 10px;
+  left: 10px;
 }
 
 .controls .volume > div:nth-child(4) {
-  margin-left: 15px;
+  left: 15px;
 }
 
 .controls .volume > div:nth-child(5) {
-  margin-left: 20px;
+  left: 20px;
 }
 
 .controls .volume > div:hover {
   height: 15px;
 }
 
-.controls .fill {
-  fill: #fff;
-  transition: fill .05s;
-}
+/* ==========================================================================
+   Controls: Fullscreen
+   ========================================================================== */
 
 .controls .fullscreen {
-  background: 0 0;
   width: 12px;
   height: 100%;
   margin-left: 10px;
   font-size: 10px;
+  background: 0 0;
 }
 
-.controls .fullscreen.enabled .enter-fullscreen {
+.controls .fullscreen.is-fullscreen .enter-fullscreen {
   display: none;
 }
 
-.controls .fullscreen:not(.enabled) .exit-fullscreen {
+.controls .fullscreen:not(.is-fullscreen) .exit-fullscreen {
   display: none;
+}
+
+.controls .fill {
+  fill: #fff;
+  transition: fill .05s;
 }
 
 .controls .fullscreen:hover .fill,
