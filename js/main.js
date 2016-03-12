@@ -40,15 +40,8 @@
   progress.addEventListener('mousemove', onProgressMouseOver);
   progress.addEventListener('mouseout', onProgressMouseOut);
 
-  //// Event listener for the seek bar
-  //seekBar.addEventListener('change', onSeekBarChange);
-  //
-  //// Pause the video when the slider handle is being dragged
-  //seekBar.addEventListener("mousedown", onSeekBarMouseDown);
-  //
-  //// Play the video when the slider handle is dropped
-  //seekBar.addEventListener("mouseup", onSeekBarMouseUp);
-
+  progress.addEventListener('mousedown', onProgressDragStart);
+  document.addEventListener('mouseup', onProgressDragStop);
 
   // $(document).ready() equivalent for HTML5 video
   video.addEventListener('canplay', function() {
@@ -88,14 +81,22 @@
 
   function togglePlayPause() {
     if (video.paused == true) {
-      video.play();
-      playButton.classList.remove('paused');
-      playButton.classList.add('playing');
+      play();
     } else {
-      video.pause();
-      playButton.classList.remove('playing');
-      playButton.classList.add('paused');
+      pause();
     }
+  }
+
+  function play() {
+    video.play();
+    playButton.classList.remove('paused');
+    playButton.classList.add('playing');
+  }
+
+  function pause() {
+    video.pause();
+    playButton.classList.remove('playing');
+    playButton.classList.add('paused');
   }
 
   function changeVolume(event) {
@@ -150,7 +151,6 @@
       // Increment by bar width (3px) + spacing (1.8px)
       position += TOTAL_BAR_WIDTH;
     }
-    // Returns mouse cursor position in percentage relative to the progress bar element
 
     // Set ARIA accessibility attributes
     volume.setAttribute('aria-valuenow', parseFloat(relX / volume.offsetWidth).toFixed(2));
@@ -206,19 +206,6 @@
     // Update timestamp relative to played progress
     timeCode.style.left = playedPercent + '%';
     timeCodeText.innerHTML = relFormattedTime;
-
-  }
-
-  function onSeekBarChange() {
-    video.currentTime = video.duration * (seekBar.value / 100);
-  }
-
-  function onSeekBarMouseDown() {
-    video.pause();
-  }
-
-  function onSeekBarMouseUp() {
-    video.play();
   }
 
   function secondsToHms(d) {
@@ -265,6 +252,8 @@
 
     // Set video time relative to mouse cursor
     video.currentTime = (video.duration * relXPercent) / 100;
+
+    play();
   }
 
   function updateProgressBuffered() {
@@ -282,6 +271,53 @@
 
       }
     }
+  }
+
+  function onProgressDragStart() {
+    pause();
+    scrubVideo();
+    progress.addEventListener('mousemove', onProgressDragOver);
+
+  }
+
+  function onProgressDragOver() {
+    scrubVideo();
+  }
+
+
+  function onProgressDragStop() {
+    progress.removeEventListener('mousemove', onProgressDragOver);
+  }
+
+  function scrubVideo() {
+    // Returns the size of an element and its position relative to the viewport
+    var rect = progress.getBoundingClientRect();
+
+    // Returns mouse cursor position in pixels relative to the progress bar element
+    var relX = event.pageX - (rect.left + document.body.scrollLeft);
+
+    // Returns mouse cursor position in percentage relative to the progress bar element
+    var relXPercent = (relX / progress.offsetWidth) * 100;
+
+    // Calculate video duration relative to mouse cursor using "hh:mm:ss" format
+    var relTime = (video.duration * relXPercent) / 100;
+    var relFormattedTime = secondsToHms((video.duration * relXPercent) / 100);
+
+
+    // Set ARIA accessibility attributes
+    progressPlayed.setAttribute('aria-valuenow', video.currentTime);
+
+    // Returns current time in percentage
+    var playedPercent = (relTime / video.duration) * 100;
+
+    // Update played progress
+    progressPlayed.style.width = playedPercent + '%';
+
+    // Calculate current time using "hh:mm:ss" format
+
+    // Update timestamp relative to played progress
+    timeCode.style.left = playedPercent + '%';
+    timeCodeText.innerHTML = relFormattedTime;
   }
 
 }());
