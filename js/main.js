@@ -175,23 +175,23 @@ var VPlayer = (function() {
       if (video.requestFullscreen) {
         video.requestFullscreen();
       } else if (video.msRequestFullscreen) {
-        video.msRequestFullscreen();
+        player.msRequestFullscreen();
       } else if (video.mozRequestFullScreen) {
-        video.mozRequestFullScreen();
+        player.mozRequestFullScreen();
       } else if (video.webkitRequestFullscreen) {
-        video.webkitRequestFullscreen(video.ALLOW_KEYBOARD_INPUT);
+        video.webkitRequestFullscreen();
       }
       fullscreenButton.classList.add('is-fullscreen');
     } else {
       // Exit fullscreen
-      if (video.exitFullscreen) {
-        video.exitFullscreen();
-      } else if (video.msExitFullscreen) {
-        video.msExitFullscreen();
-      } else if (video.mozCancelFullScreen) {
-        video.mozCancelFullScreen();
-      } else if (video.webkitExitFullscreen) {
-        video.webkitExitFullscreen();
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
       }
       fullscreenButton.classList.remove('is-fullscreen');
     }
