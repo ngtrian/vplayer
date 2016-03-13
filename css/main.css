@@ -313,6 +313,7 @@ video::-webkit-media-controls-enclosure {
    ========================================================================== */
 
 .controls .fullscreen {
+  position: relative;
   width: 12px;
   height: 100%;
   margin-left: 10px;
