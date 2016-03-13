@@ -2,13 +2,12 @@
    Base styles
    ========================================================================== */
 
-html {
+html, body {
   height: 100%;
-  box-sizing: border-box;
 }
 
-*, *:before, *:after {
-  box-sizing: inherit;
+* {
+  box-sizing: border-box;
 }
 
 *:focus {
@@ -20,7 +19,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100%;
   color: #333;
 }
 
@@ -46,13 +44,10 @@ footer {
   position: relative;
   width: 640px;
   height: 356px;
-
-
-
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 .player button {
